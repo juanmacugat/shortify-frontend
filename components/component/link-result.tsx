@@ -4,13 +4,17 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export function LinkResult({ shortLink } : any) {
+export function LinkResult({ shortLink, error } : any) {
 
   const copyToClipboard = async () => {
       navigator.clipboard.writeText(shortLink);
   }
-  
-    return shortLink && (
+
+  if(error) {
+    return <p>{error}</p>
+  }
+
+  return shortLink && (
         <div className="flex items-center space-x-2 w-full">
           <input
             value={shortLink}

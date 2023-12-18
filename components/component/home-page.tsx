@@ -14,6 +14,7 @@ export function HomePage() {
   const [expirationValue, setExpirationValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
+  const [error, setError] = useState('');
 
   const handleLongUrlChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     setLongUrlValue(e.target.value);
@@ -42,12 +43,19 @@ export function HomePage() {
         },
         body: JSON.stringify(body)
       });
+
+      if (!response.ok) {
+        // Handle errors for 4xx and 5xx status codes
+        const errorMessage = await response.text();
+        throw new Error(`HTTP error! Status: ${response.status}. Message: ${errorMessage}`);
+      }
       const data = await response.json();
       setResponse(`https://shortify-java.up.railway.app/${data.id}`);
 
       // Set the fetched data in the state
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching data:', error);
+      setError(error.message);
     } finally {
       // Set loading back to false after the data is fetched (success or failure)
       setLoading(false);
@@ -117,7 +125,7 @@ export function HomePage() {
                   </select>
                 </div>
                 <Button className="bg-black text-white" onClick={handleSubmit} disabled={loading}>Create Shortened URL</Button>
-                <LinkResult shortLink={response}></LinkResult>
+                <LinkResult shortLink={response} error={error}></LinkResult>
               </div>
             </div>
           </div>
