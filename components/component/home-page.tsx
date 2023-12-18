@@ -60,7 +60,7 @@ export function HomePage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqbUB0ZXN0LmNvbSIsImlhdCI6MTcwMjg0MjI4NCwiZXhwIjoxNzAzMDE1MDg0fQ.JknCxqO7nNMKeorR5Q0PbKB5hVXZxgeZMHU7IfEkvoQ'
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqbUB0ZXN0LmNvbSIsImlhdCI6MTcwMjg5NTI1OSwiZXhwIjoxNzAzMDY4MDU5fQ.78sHkEWlDijzilkkl9aJH_Zn1K90inylhn9Og4WqmNM'
         },
         body: JSON.stringify(body)
       });
