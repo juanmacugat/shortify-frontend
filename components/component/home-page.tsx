@@ -12,6 +12,7 @@ export function HomePage() {
 
   const [longUrlValue, setLongUrlValue] = useState('');
   const [expirationValue, setExpirationValue] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState('seconds');
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
   const [error, setError] = useState('');
@@ -20,8 +21,25 @@ export function HomePage() {
     setLongUrlValue(e.target.value);
   }
 
+  const calculateMultiplier = () => {
+    switch (selectedUnit) {
+      case 'seconds':
+        return 1;
+      case 'minutes':
+        return 60;
+      case 'days':
+        return  86400;
+      default:
+        return 1;
+    }
+  };
+
   const handleExpirationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExpirationValue(e.target.value);
+  }
+
+  const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUnit(e.target.value);
   }
   
   const handleSubmit = async () => {
@@ -29,9 +47,12 @@ export function HomePage() {
       // Set loading to true while the data is being fetched
       setLoading(true);
 
+      const multiplier = calculateMultiplier();
+      const expiration = multiplier * Number(expirationValue);
+
       const body = {
         long_url: longUrlValue,
-        expiration_in_seconds: expirationValue
+        expiration_in_seconds: expiration
       }
 
       // Perform the API call
@@ -115,6 +136,8 @@ export function HomePage() {
                     onChange={handleExpirationChange}
                   />
                   <select
+                    value={selectedUnit}
+                    onChange={handleUnitChange}
                     aria-label="Select expiration time"
                     className="p-2 border border-gray-200 rounded-md"
                     id="expiration"
